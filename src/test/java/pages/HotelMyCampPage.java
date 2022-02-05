@@ -28,6 +28,14 @@ public class HotelMyCampPage {
     @FindBy(xpath="//span[text()='ListOfUsers']")
     public WebElement basariliGirisYaziElementi;
 
+    @FindBy(xpath = "//span[text()='Hotel Management']")
+    public WebElement hotelManagementLink;
+
+    @FindBy (xpath = "(//i[@class='icon-calendar'])[2]")
+    public  WebElement hotelListLink;
+
+    @FindBy (xpath = "//i[@class='fa fa-plus']")
+    public WebElement addHotelLink;
     public void entryPage(){
         Driver.getDriver().get(ConfigReader.getProperty("HMCUrl"));
         firstLoginLink.click();

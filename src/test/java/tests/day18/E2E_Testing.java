@@ -7,7 +7,7 @@ public class E2E_Testing {
 
 
     @Test
-    public void createHotel(){
+    public void createHotel() throws InterruptedException {
         //1. Tests packagenin altına class olusturun: CreateHotel
         //2. Bir metod olusturun: createHotel
         //3. https://www.hotelmycamp.com adresine git.
@@ -18,6 +18,12 @@ public class E2E_Testing {
         HotelMyCampPage hotelMyCampPage=new HotelMyCampPage();
         hotelMyCampPage.entryPage();
         //6. Hotel Management/Hotel List menusunden ADD HOTEL butonuna tiklayin
+       Thread.sleep(5000);
+        hotelMyCampPage.hotelManagementLink.click();
+        Thread.sleep(5000);
+        hotelMyCampPage.hotelListLink.click();
+        Thread.sleep(5000);
+        hotelMyCampPage.addHotelLink.click();
         //7. Açılan sayfadaki tüm metin kutularına istediğiniz verileri girin.
         //8. Save butonuna tıklayın.
         //9. “Hotel was inserted successfully” textinin göründüğünü test edin.
