@@ -38,15 +38,7 @@ public class C01_WebTableDinamikLocate {
 
 }
 
-@Test
-    public void sutunYazdırTesti(){
-        hotelMyCampPage=new HotelMyCampPage();
-        hotelMyCampPage.entryPage();
 
-        hmcWebTablePage=new HMCWebTablePage();
-        hmcWebTablePage.sutunYazdır(4);
-
-}
 
 
 

@@ -5,7 +5,7 @@ import pages.HotelMyCampPage;
 import utilities.Driver;
 
 public class C04_HotelMyCampPositiveLogin {
-    @Test
+    @Test(groups = "miniRegression")
     public void pozitifLoginTesti(){
 
         //		https://www. hotelmycamp.com/ adresine git

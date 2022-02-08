@@ -9,7 +9,7 @@ import utilities.Driver;
 
 public class FacebookLogin {
 
-    @Test
+    @Test(groups = "miniRegression")
     public void test01() throws InterruptedException {
         //1 - https://www.facebook.com/ adresine gidin
         Driver.getDriver().get("https://www.facebook.com/");

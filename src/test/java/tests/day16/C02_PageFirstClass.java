@@ -20,7 +20,7 @@ public class C02_PageFirstClass {
         Assert.assertTrue(actualResult.contains("Nutella"));
 Driver.closeDriver();
     }
-@Test
+@Test(groups = "miniRegression")
     public void test02(){
         Driver.getDriver().get("https://www.amazon.com");
 AmazonPage amazonPage=new AmazonPage();

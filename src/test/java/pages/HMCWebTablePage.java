@@ -46,15 +46,13 @@ return  satırElement;
     }
 
 
-    public void sutunYazdır(int sutun) {
-
-
-
-    }
-
-
-
-
-
 
 }
+
+
+
+
+
+
+
+
