@@ -36,6 +36,15 @@ public class HotelMyCampPage {
 
     @FindBy (xpath = "//i[@class='fa fa-plus']")
     public WebElement addHotelLink;
+
+    @FindBy(xpath = "//input[@id='Code']")
+    public WebElement addHotelCodeBox;
+    @FindBy(xpath = "//select[@id='IDGroup']")
+    public WebElement addHotelDropdown;
+
+    @FindBy(xpath = "//button[@id='btnSubmit']")
+    public WebElement addHotelSavebtn;
+
     public void entryPage(){
         Driver.getDriver().get(ConfigReader.getProperty("HMCUrl"));
         firstLoginLink.click();
@@ -43,5 +52,15 @@ public class HotelMyCampPage {
         passwordBox.sendKeys(ConfigReader.getProperty("HMCValidPassword"));
         loginButton.click();
     }
+
+    public void wait(int sec){
+        try {
+            Thread.sleep(sec*1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+
 
 }
