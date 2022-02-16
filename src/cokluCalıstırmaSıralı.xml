@@ -1,0 +1,15 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd" >
+<suite name="coklu calıstırma sıralı" parallel="classes" thread-count="2">
+    <test name="sıralı farklı browserlar da calıstırma">
+        
+        <packages>
+            <package name="tests.crossBrowserTests"></package>
+        </packages>
+        
+        
+    </test>
+
+    
+    
+    
+</suite>
