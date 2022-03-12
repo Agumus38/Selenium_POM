@@ -29,6 +29,7 @@ actions.dragAndDrop(demoGuruPage.BankButton,demoGuruPage.DebitAccount)
         .dragAndDrop(demoGuruPage.first5k,demoGuruPage.DebitAmount)
         .dragAndDrop(demoGuruPage.second5k,demoGuruPage.CreditAmount)
         .perform();
+
 Driver.closeDriver();
 
 

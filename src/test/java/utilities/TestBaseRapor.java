@@ -1,15 +1,5 @@
 package utilities;
 
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.ss.usermodel.WorkbookFactory;
-
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.TreeMap;
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.reporter.ExtentHtmlReporter;
@@ -34,48 +24,45 @@ import java.util.Date;
 import java.util.List;
 import java.util.function.Function;
 
-public class ReusableMethods {
-    public  static Cell hucreGetir(String path,String sayfaIsmı,int satırIndex, int hucreIndex){
-        Cell cell=null;
-        try {
-            FileInputStream fileInputStream=new FileInputStream(path);
-            Workbook workbook= WorkbookFactory.create(fileInputStream);
-            cell=workbook.getSheet(sayfaIsmı).getRow(satırIndex).getCell(hucreIndex);
-        } catch (IOException e) {
-            e.printStackTrace();
+public class TestBaseRapor {
+    protected static ExtentReports extentReports; //extent report'a ilk atamayi yapar
+    protected static ExtentTest extentTest; // test pass veya failed gibi bilgileri kaydeder. Ayrica ekran resmi icin de kullaniriz
+    protected static ExtentHtmlReporter extentHtmlReporter; // Html raporu duzenler
+    // Test işlemine başlamadan hemen önce (test methodundan önce değil, tüm test işleminden önce)
+    @BeforeTest(alwaysRun = true) // alwaysRun : her zaman çalıştır.
+    public void setUpTest() {
+        extentReports = new ExtentReports();// raporlamayi baslatir
+        //rapor oluştuktan sonra raporunuz nereye eklensin istiyorsanız buraya yazıyorsunuz.
+        String date = new SimpleDateFormat("yyyyMMddhhmmss").format(new Date());
+        String filePath = System.getProperty("user.dir") + "/test-output/Rapor"+date+".html";
+        //oluşturmak istediğimiz raporu (html formatında) başlatıyoruz, filePath ile dosya yolunu belirliyoruz.
+        extentHtmlReporter = new ExtentHtmlReporter(filePath);
+        extentReports.attachReporter(extentHtmlReporter);
+        // İstediğiniz bilgileri buraya ekeyebiliyorsunuz.
+        extentReports.setSystemInfo("Enviroment","QA");
+        extentReports.setSystemInfo("Browser", ConfigReader.getProperty("browser")); // chrome, firefox
+        extentReports.setSystemInfo("Automation Engineer", "YusufEmre");
+        extentHtmlReporter.config().setDocumentTitle("TestNG Raports");
+        extentHtmlReporter.config().setReportName("TestNG Automation Reports");
+    }
+    // Her test methodundan sonra eğer testte hata varsa, ekran görüntüsü alıp rapora ekliyor
+    @AfterMethod(alwaysRun = true)
+    public void tearDownMethod(ITestResult result) throws IOException {
+        if (result.getStatus() == ITestResult.FAILURE) { // eğer testin sonucu başarısızsa
+            String screenshotLocation = ReusableMethods.getScreenshot(result.getName());
+            extentTest.fail(result.getName());
+            extentTest.addScreenCaptureFromPath(screenshotLocation);
+            extentTest.fail(result.getThrowable());
+        } else if (result.getStatus() == ITestResult.SKIP) { // eğer test çalıştırılmadan geçilmezse
+            extentTest.skip("Test Case is skipped: " + result.getName()); // Ignore olanlar
         }
-
-        return cell;
+        Driver.closeDriver();
     }
-public static Map<String,String> mapOlustur(String path, String sayfaAdı) throws FileNotFoundException {
-        Map<String,String> excelMap=new TreeMap<>();
-        Workbook workbook = null;
-
-
-    try {
-        FileInputStream fis=new FileInputStream(path);
-        workbook=WorkbookFactory.create(fis);
-    } catch (IOException e) {
-        e.printStackTrace();
+    // Raporlandırmayı sonlandırmak icin
+    @AfterTest(alwaysRun = true)
+    public void tearDownTest() {
+        extentReports.flush();
     }
-
-    int satırSayısı=workbook.getSheet(sayfaAdı).getLastRowNum();
-String key="";
-String value="";
-
-
-    for (int i = 0; i <satırSayısı ; i++) {
-        key=workbook.getSheet(sayfaAdı).getRow(i).getCell(0).toString();
-        value=workbook.getSheet(sayfaAdı).getRow(i).getCell(1).toString()+
-                ", "+workbook.getSheet(sayfaAdı).getRow(i).getCell(2).toString()+
-                ","+workbook.getSheet(sayfaAdı).getRow(i).getCell(3).toString();
-        excelMap.put(key,value);
-
-    }
-
-
-    return excelMap;
-}
 
     public static String getScreenshot(String name) throws IOException {
         // naming the screenshot with the current date to avoid duplication
@@ -206,4 +193,7 @@ String value="";
 
         return element;
     }
+
+
+
 }
